@@ -9,6 +9,9 @@
 
 
 ////////////
+
+
+
 //#define MAXWEIGHT 100
 //
 //int n = 3; /* The number of objects */
