@@ -109,6 +109,35 @@ int maxArrayDiff(int array[],int n)
 	return maxDiff;
 }
 
+
+ 
+#define MAXN 4
+#define  CURN 4 
+int  inPutBox()		//◊∞œ‰Œ Ã‚
+{
+	int items[5] = { 0,3,2,1 };
+	int r[MAXN+1][MAXN+1] = { 0 };
+
+	for (int i = 1; i <= 4; i++)
+	{
+		for (int j = 1; j <= MAXN; j++)
+		{
+			if (j < items[i])
+			{
+				r[i][j] = r[i - 1][j];
+			}
+			else
+			{
+				r[i][j] = max(r[i - 1][j], r[i - 1][j - items[i]] + items[i]);
+			}
+
+		}
+	}
+
+
+	return 1;
+}
+
 int main()
 {
 	int maxvalue = max_value();
@@ -133,6 +162,7 @@ int main()
 
 	int array[12] = { 208,117,109,238,144,248,138,39,106,9,159,18 };
 	int maxDiff=maxArrayDiff(array, 12);
+	inPutBox();
 	return 0;
 }
 

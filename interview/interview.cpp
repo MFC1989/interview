@@ -5,6 +5,7 @@
 #include "code.h"
  
 extern int m ;
+extern char p[] ;
 int _tmain()
 {
     test();
@@ -13,8 +14,8 @@ int _tmain()
 	enum myChar{a,b,c,d};
 	
 	cout<<a<<" "<<b<<endl;
-
-	system("pause");
+	char q = p[0];
+	float *pfloat = new float(1.2f);
 	return 0;
 }
 

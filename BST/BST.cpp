@@ -115,21 +115,35 @@ Status DeleteBST(BiTree *T, int key)
 	}
 }
 
+//中序遍历
+void midTravel(BiTree  T)
+{
+	if (T == NULL)
+	{
+		return;
+	}
+	midTravel(T->lchild);
+
+	midTravel(T->rchild);
+	printf("%d ", T->data);
+
+}
+
 int main(void)
 {
 	int i;
 	//int a[10] = { 62, 88, 58, 47, 35, 73, 51, 99, 37, 93 };
-	int a[7] = { 10,8,11,5,9,4,6};
+	int a[9] = { 6,15,3,7,19,8,5,17,4};
 	BiTree T = NULL;
 
-	for (i = 0; i < 7; i++)
+	for (i = 0; i < 9; i++)
 	{
 		InsertBST(&T, a[i]);
 	}
 	/*
 	DeleteBST(&T, 93);
 	DeleteBST(&T, 47);*/
-	DeleteBST(&T,8);
+	midTravel(T);
 	printf("本样例建议断点跟踪查看二叉排序树结构");
 	return 0;
 }

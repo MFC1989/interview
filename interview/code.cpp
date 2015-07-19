@@ -5,4 +5,6 @@
  {
 	 cout<<"hello world"<<endl;
  }
+
+  char * p = "abc";
  

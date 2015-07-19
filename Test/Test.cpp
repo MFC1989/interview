@@ -4,14 +4,15 @@
 #include "stdafx.h"
 #include <cstdlib>
 
+#include <list>
+#include <iostream>
+using namespace std;
 
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int a = 10;
 	int b = 11;
-	int c;
-	//c = (a > b) ? a : b;
-	
+
 	return 0;
 }
 

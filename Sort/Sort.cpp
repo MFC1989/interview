@@ -171,76 +171,122 @@ void QuickSort(int a[], int first,int last)
 
 void mergeArray(int array1[],int first,int mid,int last,int res[])
 {
-	int i = first;
 	int j = mid+1;
-	int m = mid;
-	int n = last;
-	int k = 0;
-	while (i<=m&&j<=n)
+	int cur = 0;
+	while (first<=mid&&j<=last)
 	{
-		if (array1[i]<array1[j])
+		if (array1[first]<array1[j])
 		{
-			res[k] = array1[i];
-			k++;
-			i++;
+			res[cur] = array1[first];
+			cur++;
+			first++;
 		} 
 		else
 		{
-			res[k] = array1[j];
-			k++;
+			res[cur] = array1[j];
+			cur++;
 			j++;
 		}
 	}
 
-	while (i<=m)
+	while (first<=mid)						//若前半部分没有合并完
 	{
-		res[k] = array1[i];
-		k++;
-		i++;
+		res[cur] = array1[first];
+		cur++;
+		first++;
 	}
 
-	while (j<=n)
+	while (j<=last)							//若后半部分没有合并完
 	{
-		res[k] = array1[j];
-		k++;
+		res[cur] = array1[j];					//PS: 前半部分没有合并完和后半部分没有合并完这两种情况只会出现一种。
+		cur++;
 		j++;
 	}
 
 	
-	for (int i = 0; i < k;i++)
-	{
-		array1[first + i] = res[i];
-		cout << res[i] <<" ";
-	}
-	cout << endl;
+	//for (int i = 0; i < k;i++)
+	//{
+	//	array1[first + i] = res[i];
+	//	cout << res[i] <<" ";
+	//}
+	//cout << endl;
 }
 
-void mergeSort(int array[],int first,int last,int buffer[])
+
+
+//合并有序数组(array的前半部分和后半部分分别是有序的，现将其合并为整体有序)
+void merge2SortedArray(int array[],int first,int mid,int last,int res[])
 {
-	if (first<last)
+	int cur = 0;
+	int j = mid + 1;
+	while (first<=mid&&j<=last)
+	{
+		if (array[first]<array[j])
+		{
+			res[cur] = array[first];
+			first++;
+			cur++;
+		}
+		else
+		{
+			res[cur] = array[j];
+			j++;
+			cur++;
+		}
+	}
+
+	while (first<=mid)
+	{
+		res[cur] = array[first];
+		cur++;
+		first++;
+	}
+
+	while (j <= last)
+	{
+		res[cur] = array[j];
+		cur++;
+		j++;
+	}
+
+
+}
+
+
+void mergeSort(int array[], int first, int last, int buffer[])
+{
+	if (first < last)
 	{
 		int mid = (first + last) / 2;
 		mergeSort(array, first, mid, buffer);
-		mergeSort(array, mid+1, last, buffer);
+		mergeSort(array, mid + 1, last, buffer);
 		mergeArray(array, first, mid, last, buffer);
 	}
 
 }
+
+void mMergeSort(int array[],int first,int last,int res[])
+{
+	if (first<last)
+	{
+		int mid = (first + last) / 2;
+		mMergeSort(array, first, mid, res);
+		mMergeSort(array, mid+1, last, res);
+		merge2SortedArray(array,first,mid,last,res);
+	}
+}
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	int mArray[10]={72,6,57,88,60,42,83,73,48,85};
+	int mArray[5]={1,3,9,4,5};
 	int mArrayLen=sizeof(mArray)/sizeof(int);
-	//bubbleSort(mArray,mArrayLen);
-	//ShellSort(mArray,mArrayLen);
-	 //SelectSort(mArray,mArrayLen);
-	//QuickSort(mArray, 0, mArrayLen-1 );
-	// int a=2,b=3;
-	// mSwapByRef(a,b);
+	int newArray[5] = { 0x00 };
 
+	//mergeSort(mArray, 0, 3, newArray);
 
-	 int array2[6] = { 1,89,12,903, 4, 5 };
-	 int  arrRes[6] = {0x00};
-	 mergeSort(array2, 0, 5, arrRes);
+	 //merge2SortedArray(mArray, 0, 2, 4, newArray);
+	 mMergeSort(mArray,0,4,newArray);
+	 
 	 return 0;
 }
 
