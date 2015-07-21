@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 
-
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -138,6 +137,35 @@ int  inPutBox()		//装箱问题
 	return 1;
 }
 
+//切割钢条
+int cutSteel()
+{
+	const int LEN = 5;
+	int value[LEN] = { 0,2,1, 1, 2 };		//分别为长度是1,2,3,4时
+	int r[10] = { 0x00 };
+	for (int i = 1; i < LEN;i++)
+	{
+		int tmp =-1;
+		for (int j = 1; j <= i; j++)
+		{
+			if (tmp<r[i-j]+value[j])
+			{
+				tmp = r[i-j] + value[j];
+			}
+		}
+		r[i] = tmp;
+	}
+
+	return 0;
+}
+
+
+//最长公共子序列
+int getCommenLen()
+{
+
+}
+
 int main()
 {
 	int maxvalue = max_value();
@@ -163,6 +191,7 @@ int main()
 	int array[12] = { 208,117,109,238,144,248,138,39,106,9,159,18 };
 	int maxDiff=maxArrayDiff(array, 12);
 	inPutBox();
+	cutSteel();
 	return 0;
 }
 

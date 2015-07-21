@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 //////////////////////////////////////////////////////////////////////////
@@ -271,6 +272,71 @@ int getNumOfOneOnBinV3(int paraN)
 	return nCount;
 }
 
+//数组中只出现一次的一个数(其他的数都出现两次) 
+//---利用的性质（数与自己异或结果为0，所以对整个数组依次异或，剩下来的就是只出现一次的数）
+int get1NumAppear1S(int array[],int n)
+{
+	int res = 0;
+	for (int i = 0; i < n;i++)
+	{
+		res ^= array[i];
+	}
+	return res;
+}
+
+//数组中只出现一次的两个数（其他的数字都出现两次）
+//利用的性质--先对整个数组异或，最后得到的数是那两个不同的数异或的值。
+//然后从最低位开始，根据第一个为1的位将数组分为两个数组
+//然后使用get1NumAppear1S里的办法，分别从两个数组中找出只出现一次的数
+
+void get2NumAppear1S()
+{
+	int array[6] = { 4, 4, 2, 7, 2,3 };
+
+	int array1[6] = { 0x00 };
+	int array2[6] = { 0x00 };
+
+	//找到能将数组分割的数--这个数是那两个不同的数异或的值。
+	int flag = 0;
+	for each (int num in array)
+	{
+		flag ^= num;
+	}
+
+	//从最低位开始，找到第一个为1的位
+	int index = 0;
+	while (flag)
+	{
+		if ((flag & 1)!=1)
+		{
+			index++;
+		}
+		else
+		{
+			break;
+		}
+		flag >>= 1;
+	}
+
+	int i = 0;
+	int j = 0;
+	//分割数组
+	for each (int num in array)
+	{
+		if (num>>index==0)
+		{
+			array1[i++] = num;
+		}
+		else
+		{
+			array2[j++] = num;
+		}
+	}
+
+	cout << get1NumAppear1S(array1, i) << "\t" << get1NumAppear1S(array2, j) << endl;
+}
+
+
 
 int main()
 {
@@ -287,15 +353,6 @@ int main()
 	getNumOfOneOnBinV1(129);
 	getNumOfOneOnBinV2(129);
 	getNumOfOneOnBinV3(129);
-
-	const int MAXN = 5;
-	int a[MAXN] = { 2,3,3,2,1 };
-	int lostNum = 0;
-	for (int i = 0; i < MAXN; i++)
-	{
-		lostNum ^= a[i];
-	}
-	printf("缺失的数字为:  %d\n", lostNum);
-
+	get2NumAppear1S();
 	return 0;
 }
