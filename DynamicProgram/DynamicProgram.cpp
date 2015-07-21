@@ -160,11 +160,68 @@ int cutSteel()
 }
 
 
-//最长公共子序列
-int getCommenLen()
-{
 
+
+//最长公共子序列的长度
+int getCommenLen(int n,int **r,char *str1,char * str2,int **b)
+{
+	int const ARRAYLEN = n;
+
+	
+	for (int i = 1; i < 4; i++)
+	{
+		for (int j = 1; j <4;j++)
+		{
+			if (str1[i]==str2[j])
+			{
+				r[i][j] = r[i - 1][j - 1] + 1;
+				b[i][j] = 1;
+			}
+			else
+			{
+				r[i][j] = max(r[i][j-1 ], r[i-1][j]);
+				if (r[i][j - 1]>r[i - 1][j])
+				{
+					b[i][j] = 2;
+				} 
+				else
+				{
+					b[i][j] = 3;
+				}
+			}
+		}
+	}
+
+	return 0;
 }
+
+//获取最长子序列
+void LCS(int i, int j, char * x, int **b)
+{
+	if (i==0||j==0)
+	{
+		return;
+
+	}
+	if (b[i][j]==1)
+	{
+		LCS(i - 1, j - 1, x, b);
+		cout << x[i] << endl;
+	}
+	else 
+	{
+		if (b[i][j]==2)
+		{
+			LCS(i - 1, j, x, b);
+		} 
+		else
+		{
+			LCS(i , j-1, x, b);
+		}
+	}
+}
+
+
 
 int main()
 {
@@ -192,6 +249,7 @@ int main()
 	int maxDiff=maxArrayDiff(array, 12);
 	inPutBox();
 	cutSteel();
+
 	return 0;
 }
 
