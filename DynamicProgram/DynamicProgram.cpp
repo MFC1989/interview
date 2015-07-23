@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <functional>
+#include <string>
 using namespace std;
 
 //物品数据结构
@@ -137,25 +138,26 @@ int  inPutBox()		//装箱问题
 	return 1;
 }
 
+
 //切割钢条
 int cutSteel()
 {
 	const int LEN = 5;
 	int value[LEN] = { 0,2,1, 1, 2 };		//分别为长度是1,2,3,4时
 	int r[10] = { 0x00 };
-	for (int i = 1; i < LEN;i++)
+	
+	for (int i = 1; i < 5;i++)
 	{
-		int tmp =-1;
-		for (int j = 1; j <= i; j++)
+		int tmp = -1;
+		for (int j = 1; j <= i;j++)
 		{
 			if (tmp<r[i-j]+value[j])
 			{
-				tmp = r[i-j] + value[j];
+				tmp = r[i - j] + value[j];
 			}
 		}
-		r[i] = tmp;
+		r[i]=tmp;
 	}
-
 	return 0;
 }
 
@@ -163,14 +165,12 @@ int cutSteel()
 
 
 //最长公共子序列的长度
-int getCommenLen(int n,int **r,char *str1,char * str2,int **b)
+int getCommenLen(int n, int r[4][4], char *str1, char * str2, int  b[4][4])
 {
-	int const ARRAYLEN = n;
-
-	
-	for (int i = 1; i < 4; i++)
+	int i, j;
+	for ( i = 1; i < n; i++)
 	{
-		for (int j = 1; j <4;j++)
+		for ( j = 1; j <n;j++)
 		{
 			if (str1[i]==str2[j])
 			{
@@ -179,47 +179,85 @@ int getCommenLen(int n,int **r,char *str1,char * str2,int **b)
 			}
 			else
 			{
-				r[i][j] = max(r[i][j-1 ], r[i-1][j]);
-				if (r[i][j - 1]>r[i - 1][j])
+				if (r[i-1][j ]>r[i ][j-1])
 				{
 					b[i][j] = 2;
+					r[i][j] = r[i-1][j ];
 				} 
 				else
 				{
 					b[i][j] = 3;
+					r[i][j] = r[j][i-1];
 				}
 			}
 		}
 	}
 
-	return 0;
+	return r[n-1][n-1];
 }
 
 //获取最长子序列
-void LCS(int i, int j, char * x, int **b)
+void LCS(int i, int j, char * x, int pos[4][4])
 {
 	if (i==0||j==0)
 	{
 		return;
+	}
 
-	}
-	if (b[i][j]==1)
+	cout << "i= " << i << "j= " << j << endl;
+	if (pos[i][j] == 1)
 	{
-		LCS(i - 1, j - 1, x, b);
-		cout << x[i] << endl;
+		cout << x[i]<< endl;
+		LCS(i - 1, j - 1, x, pos);
 	}
-	else 
+	else if (pos[i][j] == 2)
 	{
-		if (b[i][j]==2)
-		{
-			LCS(i - 1, j, x, b);
-		} 
-		else
-		{
-			LCS(i , j-1, x, b);
-		}
+		LCS(i - 1, j, x, pos);
+	}
+	else
+	{
+		LCS(i, j - 1, x, pos);
 	}
 }
+
+
+//最大乘积
+/*
+给一个浮点数序列，取最大乘积连续子串的值，例如 -2.5，4，0，3，0.5，8，-1，则取出
+的最大乘积连续子串为3， 0.5， 8。 也就是说， 上述数组中， 3 0.5 8这3 个数的乘积3*0.5*8=12
+是最大的，而且是连续的
+*/
+
+//还有一个插入乘号的变种 如123 插入一个乘号  最大乘积为12*3=36.   !!!
+
+float maxMultiplySequence()
+{
+	const int LEN = 10;
+	float a[LEN] = { 88, 4 ,0, 3, 0.5 ,8 ,0,12,3,0 };
+	float r[LEN] = { 0x00 };
+
+	r[0] = a[0];
+	float curMax = r[0];
+	for (int i = 1; i < LEN ; i++)
+	{
+		float tmp = r[i-1];
+
+		if (tmp*a[i]>a[i])		//关键点！	 如r[i-1]=3, a[i]=0.5. 只要3*0.5>0.5 则可让r[i]=3*0.5。 
+		{								//因为1.5乘以8总比0.5乘以3大！
+			r[i] = tmp*a[i];		//状态转移方程为 r[i]=max(a[i],r[i-1]*a[i]);
+		}
+		else
+		{
+			r[i] = a[i];
+		}
+		
+		curMax = std::max(r[i],curMax);
+	}
+	cout << curMax << endl;
+	return curMax;
+}
+	
+
 
 
 
@@ -250,6 +288,21 @@ int main()
 	inPutBox();
 	cutSteel();
 
+	char * str1 = "#abc";
+	char * str2 = "#bcd";
+	int n = strlen(str1);
+	int r[4][4] = { 0x00 };
+	int b[4][4] = { 0x00 };
+
+	int len=getCommenLen(n, r, str1, str2, b);
+	LCS(3, 3, str1, b);
+	maxMultiplySequence();
+	cout << LLONG_MAX << endl;
+
 	return 0;
 }
+
+
+
+
 
