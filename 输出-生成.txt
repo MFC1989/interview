@@ -1,1 +1,7 @@
-========== Éú³É: ³É¹¦ 0 ¸ö£¬Ê§°Ü 0 ¸ö£¬×îĞÂ 12 ¸ö£¬Ìø¹ı 0 ¸ö ==========
+ï»¿1>------ å·²å¯åŠ¨å…¨éƒ¨é‡æ–°ç”Ÿæˆ:  é¡¹ç›®: DynamicProgram, é…ç½®: Debug Win32 ------
+1>  stdafx.cpp
+1>  DynamicProgram.cpp
+1>c:\users\wukaisheng\source\repos\interview\dynamicprogram\dynamicprogram.cpp(338): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+1>          c:\program files (x86)\microsoft visual studio 12.0\vc\include\string.h(112) : å‚è§â€œstrcpyâ€çš„å£°æ˜
+1>  DynamicProgram.vcxproj -> C:\Users\wukaisheng\Source\Repos\interview\Debug\DynamicProgram.exe
+========== å…¨éƒ¨é‡æ–°ç”Ÿæˆ:  æˆåŠŸ 1 ä¸ªï¼Œå¤±è´¥ 0 ä¸ªï¼Œè·³è¿‡ 0 ä¸ª ==========
