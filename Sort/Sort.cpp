@@ -15,28 +15,26 @@ void mSwap(int *a,int *b)
 	*b=tmp;
 }
 
-void mSwapByRef(int &a,int &b)
+void mSwapByBit(int &a,int &b)
 {
-	//int tmp=a;
-	//a=b;
-	//b=tmp;
-	a=a^b;
-	b=a^b;
-	a=a^b;
+	if (a!=b)
+	{
+		a = a^b;
+		b = a^b;
+		a = a^b;
+	}
+	
 }
 
 void bubbleSort(int tArray[],int len)
 {
-	int i,j;
-	for ( i=0;i<len;i++)
+	for (int i = 0; i < len;i++)
 	{
-		for (j=1;j<len-i;j++)
+		for (int j = 1; j < len - i;j++)
 		{
 			if (tArray[j]<tArray[j-1])
 			{
-				int tmp=tArray[j];
-				tArray[j]=tArray[j-1];
-				tArray[j-1]=tmp;
+				mSwapByBit(tArray[j], tArray[j - 1]);
 			}
 		}
 	}
@@ -45,16 +43,22 @@ void bubbleSort(int tArray[],int len)
 
 void InsertSort(int tArray[],int len)
 {
-	int i,j,tmp;
-	for ( i=1;i<len;i++)
+
+	int i, j, tmp;
+	for ( i = 1; i < len;i++)
 	{
-		tmp=tArray[i];
-		for (j=i-1;j>=0&&tArray[j]>tmp;--j )
+		tmp = tArray[i];
+		for ( j = i - 1; j >= 0;j--)
 		{
-			tArray[j+1]=tArray[j];
+			if (tArray[j]>tmp)					//如果前面有数大于它，则把前面的数往后挪动
+			{
+				tArray[j + 1] = tArray[j];		
+			}
 		}
-		tArray[j+1]=tmp;
+		
+		tArray[j + 1] = tmp;		//插入到正确的位置
 	}
+
 }
 
 
@@ -98,7 +102,7 @@ void SelectSort(int tArray[],int len)
 			//tmp=tArray[i];
 			//tArray[i]=tArray[flag];
 			//tArray[flag]=tmp;
-			mSwapByRef((tArray[i]),(tArray[flag]));
+			mSwapByBit((tArray[i]),(tArray[flag]));
 	}
 
 
@@ -278,15 +282,16 @@ void mMergeSort(int array[],int first,int last,int res[])
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	int mArray[5]={1,3,9,4,5};
-	int mArrayLen=sizeof(mArray)/sizeof(int);
-	int newArray[5] = { 0x00 };
+	//int mArray[5]={1,3,9,4,5};
+	//int mArrayLen=sizeof(mArray)/sizeof(int);
+	//int newArray[5] = { 0x00 };
 
-	//mergeSort(mArray, 0, 3, newArray);
+	////mergeSort(mArray, 0, 3, newArray);
 
-	 //merge2SortedArray(mArray, 0, 2, 4, newArray);
-	 mMergeSort(mArray,0,4,newArray);
-	 
-	 return 0;
+	// //merge2SortedArray(mArray, 0, 2, 4, newArray);
+	// mMergeSort(mArray,0,4,newArray);
+	
+	bubbleSort();
+	return 0;
 }
 
