@@ -15,7 +15,7 @@ void mSwap(int *a,int *b)
 	*b=tmp;
 }
 
-void mSwapByBit(int &a,int &b)
+void mSwapByBitOp(int &a,int &b)
 {
 	if (a!=b)
 	{
@@ -34,7 +34,7 @@ void bubbleSort(int tArray[],int len)
 		{
 			if (tArray[j]<tArray[j-1])
 			{
-				mSwapByBit(tArray[j], tArray[j - 1]);
+				mSwapByBitOp(tArray[j], tArray[j - 1]);
 			}
 		}
 	}
@@ -56,7 +56,7 @@ void InsertSort(int tArray[],int len)
 			}
 		}
 		
-		tArray[j + 1] = tmp;		//插入到正确的位置
+		tArray[j + 1] = tmp;		//把它插入到正确的位置
 	}
 
 }
@@ -85,28 +85,55 @@ void ShellSort(int tArray[],int len)
 
 }
 
-void SelectSort(int tArray[],int len)
+//void SelectSort(int tArray[],int len)
+//{
+//	int i,j,flag;
+//	for ( i=0;i<len-1;i++)
+//	{
+//		flag=i;
+//		for ( j=i+1;j<len;j++)
+//		{
+//			if (tArray[flag]>tArray[j])
+//			{
+//				flag=j;
+//			}
+//		}
+//
+//			//tmp=tArray[i];
+//			//tArray[i]=tArray[flag];
+//			//tArray[flag]=tmp;
+//			mSwapByBitOp((tArray[i]),(tArray[flag]));
+//	}
+//
+//
+//}
+
+
+//找到后面最小的那个数的下标，然后与之交换。
+void selectSortV2()
 {
-	int i,j,flag;
-	for ( i=0;i<len-1;i++)
+	int a[5] = { 2, 4, 3, 1, 9 };
+	for (int i = 0; i < 5;i++)
 	{
-		flag=i;
-		for ( j=i+1;j<len;j++)
+		int minIndex = i;
+		for (int j = i + 1; j < 5;j++)
 		{
-			if (tArray[flag]>tArray[j])
+			if (a[minIndex]>a[j])
 			{
-				flag=j;
+				minIndex = j;
 			}
 		}
 
-			//tmp=tArray[i];
-			//tArray[i]=tArray[flag];
-			//tArray[flag]=tmp;
-			mSwapByBit((tArray[i]),(tArray[flag]));
+		if (minIndex!=i)
+		{
+			mSwapByBitOp(a[i], a[minIndex]);
+		}
 	}
 
-
 }
+
+
+
 
 void QuickSort(int a[], int first,int last)
 {
@@ -269,29 +296,82 @@ void mergeSort(int array[], int first, int last, int buffer[])
 
 }
 
-void mMergeSort(int array[],int first,int last,int res[])
+//堆排序
+
+
+#define  LEFT(x)  (x<<1)
+#define  RIGHT(x) ((x<<1)+1)
+
+//维护最大堆的性质
+void maxHeapify(int array[], int len, int index)
 {
-	if (first<last)
+	int l = LEFT(index);
+	int r = RIGHT(index);
+
+	int largest = 0;
+
+	if (l <= len&&array[l] > array[index])
 	{
-		int mid = (first + last) / 2;
-		mMergeSort(array, first, mid, res);
-		mMergeSort(array, mid+1, last, res);
-		merge2SortedArray(array,first,mid,last,res);
+		largest = l;
+	}
+	else
+	{
+		largest = index;
+	}
+
+
+	if (r <= len&&array[r] > array[largest])
+	{
+		largest = r;
+	}
+
+	if (!(largest&index))
+	{
+		mSwapByBitOp(array[index], array[largest]);
+		maxHeapify(array, len, largest);
+	}
+
+}
+
+
+//建堆
+void buildMaxHeap(int array[],int len)
+{
+	for (int i = len / 2; i >= 1;i--)
+	{
+		maxHeapify(array, len, i);
 	}
 }
 
+
+//堆排序
+void heapSort(int array[], int len)
+{
+	buildMaxHeap(array, len);
+
+	for (int i = len; i > 1; i--)
+	{
+		mSwapByBitOp(array[1], array[len]);
+		maxHeapify(array, i, 1);
+	}
+
+}
+
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//int mArray[5]={1,3,9,4,5};
+	int mArray[6]={0,3,11,7,9,2};
 	//int mArrayLen=sizeof(mArray)/sizeof(int);
 	//int newArray[5] = { 0x00 };
 
 	////mergeSort(mArray, 0, 3, newArray);
 
-	// //merge2SortedArray(mArray, 0, 2, 4, newArray);
+	 //merge2SortedArray(mArray, 0, 2, 4, newArray);
 	// mMergeSort(mArray,0,4,newArray);
-	
-	bubbleSort();
+	//heapSort(mArray, 5);
+	selectSortV2();
+
 	return 0;
 }
 
