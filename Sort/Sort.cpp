@@ -135,68 +135,67 @@ void selectSortV2()
 
 
 
-void QuickSort(int a[], int first,int last)
+void QuickSort(int tArray[], int left,int right)
 {
-
-	/*if (left<right)
+	if (left < right)
 	{
 		int i = left;
 		int j = right;
 		int x = tArray[left];
-		while (i<j)
+		while (i < j)
 		{
-			while (i<j&&tArray[j]>=x)
+			while (i < j&&tArray[j] >= x)
 			{
 				j--;
 			}
 
-			if (i<j)
+			if (i < j)
 			{
 				tArray[i] = tArray[j];
 				i++;
 			}
 
-			while (i<j&&tArray[i]<x)
+			while (i < j&&tArray[i] < x)
 			{
 				i++;
 			}
-			if (i<j)
+			if (i < j)
 			{
 				tArray[j] = tArray[i];
 				j--;
 			}
 
 			tArray[i] = x;
-			QuickSort(tArray, left,i - 1);
+			QuickSort(tArray, left, i - 1);
 			QuickSort(tArray, i + 1, right);
 		}
-	}*/
+	}
 	
-	if (last <= first)
-	{
-		return;
-	}
-	int pivot = a[first];
-	int index = last;
+	//if (last <= first)
+	//{
+	//	return;
+	//}
+	//int pivot = a[first];
+	//int index = last;
 
-	for (int i = last; i >= first + 1; i--)
-	{
-		if (a[i] >= pivot)
-		{
-			mSwap(&(a[i]), &(a[index]));
-			index--;
-		}
-	}
+	//for (int i = last; i >= first + 1; i--)
+	//{
+	//	if (a[i] >= pivot)
+	//	{
+	//		mSwapByBitOp(a[i], a[index]);
+	//		index--;
+	//	}
+	//}
 
-	a[first] = a[index];
-	a[index] = pivot;
+	//a[first] = a[index];
+	//a[index] = pivot;
 
-	for (int i = 0; i < 10; i++)
-	{
-		cout << a[i] << " ";
-	}
-	QuickSort(a, first, index - 1);
-	QuickSort(a, first, index + 1);
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	cout << a[i] << " ";
+	//}
+	//QuickSort(a, first, index - 1);
+	//QuickSort(a, first, index + 1);
 
 }
 
@@ -362,6 +361,7 @@ void heapSort(int array[], int len)
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int mArray[6]={0,3,11,7,9,2};
+	QuickSort(mArray, 0, 5);
 	//int mArrayLen=sizeof(mArray)/sizeof(int);
 	//int newArray[5] = { 0x00 };
 
@@ -370,7 +370,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	 //merge2SortedArray(mArray, 0, 2, 4, newArray);
 	// mMergeSort(mArray,0,4,newArray);
 	//heapSort(mArray, 5);
-	selectSortV2();
+	//selectSortV2();
 
 	return 0;
 }
