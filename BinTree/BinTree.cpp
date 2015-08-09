@@ -7,6 +7,8 @@
 #include <stack>
 
 #include <iostream>
+#include <string>
+#include <algorithm>
 using namespace std;
 
 #define QUEUE_MAXSIZE 50

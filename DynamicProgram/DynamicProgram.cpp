@@ -1,4 +1,4 @@
-// DynamicProgram.cpp : Defines the entry point for the console application.
+ï»¿// DynamicProgram.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -11,33 +11,33 @@
 #include <string>
 using namespace std;
 
-//ÎïÆ·Êı¾İ½á¹¹
+//ç‰©å“æ•°æ®ç»“æ„
 typedef struct commodity
 {
-	int value;  //¼ÛÖµ
-	int weight; //ÖØÁ¿
+	int value;  //ä»·å€¼
+	int weight; //é‡é‡
 }commodity;
 
-const int N = 3;  //ÎïÆ·¸öÊı
-const int W = 5; //±³°üµÄÈİÁ¿
+const int N = 3;  //ç‰©å“ä¸ªæ•°
+const int W = 5; //èƒŒåŒ…çš„å®¹é‡
 
-//³õÊ¼ÎïÆ·ĞÅÏ¢
+//åˆå§‹ç‰©å“ä¿¡æ¯
 commodity goods[N + 1] = { { 0, 0 }, { 6, 1 }, { 10, 2 }, { 300, 5 } };
 int select[N + 1][W + 1];
 
 int max_value()
 {
-	//³õÊ¼Ã»ÓĞÎïÆ·Ê±ºò£¬±³°üµÄ¼ÛÖµÎª0
+	//åˆå§‹æ²¡æœ‰ç‰©å“æ—¶å€™ï¼ŒèƒŒåŒ…çš„ä»·å€¼ä¸º0
 	for (int w = 1; w <= W; ++w)
 	{
 		select[0][w] = 0;
 	}
 	for (int i = 1; i <= N; ++i)
 	{
-		select[i][0] = 0;  //±³°üÈİÁ¿Îª0Ê±£¬×î´ó¼ÛÖµÎª0
+		select[i][0] = 0;  //èƒŒåŒ…å®¹é‡ä¸º0æ—¶ï¼Œæœ€å¤§ä»·å€¼ä¸º0
 		for (int w = 1; w <= W; ++w)
 		{
-			if (goods[i].weight <= w)  //µ±Ç°ÎïÆ·iµÄÖØÁ¿Ğ¡ÓÚµÈÓÚw£¬½øĞĞÑ¡Ôñ
+			if (goods[i].weight <= w)  //å½“å‰ç‰©å“içš„é‡é‡å°äºç­‰äºwï¼Œè¿›è¡Œé€‰æ‹©
 			{
 				if ((goods[i].value + select[i - 1][w - goods[i].weight]) > select[i - 1][w])
 				{
@@ -50,15 +50,15 @@ int max_value()
 			}
 			else
 			{
-				//µ±Ç°ÎïÆ·iµÄÖØÁ¿´óÓÚw£¬²»Ñ¡Ôñ
+				//å½“å‰ç‰©å“içš„é‡é‡å¤§äºwï¼Œä¸é€‰æ‹©
 				select[i][w] = select[i - 1][w];
 			}
 		}
 	}
-	return select[N][W];  //×îÖÕÇóµÃ×î´óÖµ
+	return select[N][W];  //æœ€ç»ˆæ±‚å¾—æœ€å¤§å€¼
 }
 
-//µ¼µ¯À¹½Ø
+//å¯¼å¼¹æ‹¦æˆª
 int missleIntercept(const vector <int> & missle)
 {
 	vector<int> dp(missle.size(),0);
@@ -76,14 +76,14 @@ int missleIntercept(const vector <int> & missle)
 	return res;
 }
 
-//Êı×é×î´ó²îÖµ
+//æ•°ç»„æœ€å¤§å·®å€¼
 int maxArrayDiff(int array[],int n)
 {
 	vector<int>diff(n, 0);
 	vector<int>max(n, 0);
-	int tmpDiff = 0;					//È«¾Ö±äÁ¿±£´æÉÏ´ÎµÄ²îÖµ
-	int tmpMax = array[0];		//±£´æ×ó±ß×î´óµÄÖµ
-	int maxDiff = 0;				//×îºóÒª·µ»ØµÄÖµ
+	int tmpDiff = 0;					//å…¨å±€å˜é‡ä¿å­˜ä¸Šæ¬¡çš„å·®å€¼
+	int tmpMax = array[0];		//ä¿å­˜å·¦è¾¹æœ€å¤§çš„å€¼
+	int maxDiff = 0;				//æœ€åè¦è¿”å›çš„å€¼
 	for (int i = 0; i < n-1; i++)
 	{
 		if (tmpMax<array[i])
@@ -91,14 +91,14 @@ int maxArrayDiff(int array[],int n)
 			tmpMax = array[i];
 		}
 
-		diff[i] = array[i] - array[i+1];		//±¾´Î²îÖµ
+		diff[i] = array[i] - array[i+1];		//æœ¬æ¬¡å·®å€¼
 
 		if (diff[i]<tmpDiff)
 		{
-			diff[i] = tmpDiff;					//½«±¾´Î²îÖµÓëÉÏ´Î²îÖµ±È½Ï,ÈôÉÏ´Î²îÖµ´óÓÚ±¾´Î£¬ÔòÈ¡ÉÏ´Î
+			diff[i] = tmpDiff;					//å°†æœ¬æ¬¡å·®å€¼ä¸ä¸Šæ¬¡å·®å€¼æ¯”è¾ƒ,è‹¥ä¸Šæ¬¡å·®å€¼å¤§äºæœ¬æ¬¡ï¼Œåˆ™å–ä¸Šæ¬¡
 		}
 
-		tmpDiff = tmpMax - array[i+1];			//½«±¾´ÎµÄ²îÖµ±£´æÏÂÀ´£¬×÷ÎªÏÂ´ÎµÄ¼ÆËã²îÖµµÄ¡±ÉÏ´Î¡°¡£
+		tmpDiff = tmpMax - array[i+1];			//å°†æœ¬æ¬¡çš„å·®å€¼ä¿å­˜ä¸‹æ¥ï¼Œä½œä¸ºä¸‹æ¬¡çš„è®¡ç®—å·®å€¼çš„â€ä¸Šæ¬¡â€œã€‚
 
 		if (maxDiff<diff[i])
 		{
@@ -113,7 +113,7 @@ int maxArrayDiff(int array[],int n)
  
 #define MAXN 4
 #define  CURN 4 
-int  inPutBox()		//×°ÏäÎÊÌâ
+int  inPutBox()		//è£…ç®±é—®é¢˜
 {
 	int items[5] = { 0,3,2,1 };
 	int r[MAXN+1][MAXN+1] = { 0 };
@@ -139,11 +139,11 @@ int  inPutBox()		//×°ÏäÎÊÌâ
 }
 
 
-//ÇĞ¸î¸ÖÌõ
+//åˆ‡å‰²é’¢æ¡
 int cutSteel()
 {
 	const int LEN = 5;
-	int value[LEN] = { 0,2,1, 1, 2 };		//·Ö±ğÎª³¤¶ÈÊÇ1,2,3,4Ê±
+	int value[LEN] = { 0,2,1, 1, 2 };		//åˆ†åˆ«ä¸ºé•¿åº¦æ˜¯1,2,3,4æ—¶
 	int r[10] = { 0x00 };
 	
 	for (int i = 1; i < 5;i++)
@@ -164,7 +164,7 @@ int cutSteel()
 
 
 
-//×î³¤¹«¹²×ÓĞòÁĞµÄ³¤¶È
+//æœ€é•¿å…¬å…±å­åºåˆ—çš„é•¿åº¦
 int getCommenLen(int n, int r[4][4], char *str1, char * str2, int  b[4][4])
 {
 	int i, j;
@@ -196,7 +196,7 @@ int getCommenLen(int n, int r[4][4], char *str1, char * str2, int  b[4][4])
 	return r[n-1][n-1];
 }
 
-//»ñÈ¡×î³¤×ÓĞòÁĞ
+//è·å–æœ€é•¿å­åºåˆ—
 void LCS(int i, int j, char * x, int pos[4][4])
 {
 	if (i==0||j==0)
@@ -221,14 +221,14 @@ void LCS(int i, int j, char * x, int pos[4][4])
 }
 
 
-//×î´ó³Ë»ı
+//æœ€å¤§ä¹˜ç§¯
 /*
-¸øÒ»¸ö¸¡µãÊıĞòÁĞ£¬È¡×î´ó³Ë»ıÁ¬Ğø×Ó´®µÄÖµ£¬ÀıÈç -2.5£¬4£¬0£¬3£¬0.5£¬8£¬-1£¬ÔòÈ¡³ö
-µÄ×î´ó³Ë»ıÁ¬Ğø×Ó´®Îª3£¬ 0.5£¬ 8¡£ Ò²¾ÍÊÇËµ£¬ ÉÏÊöÊı×éÖĞ£¬ 3 0.5 8Õâ3 ¸öÊıµÄ³Ë»ı3*0.5*8=12
-ÊÇ×î´óµÄ£¬¶øÇÒÊÇÁ¬ĞøµÄ
+ç»™ä¸€ä¸ªæµ®ç‚¹æ•°åºåˆ—ï¼Œå–æœ€å¤§ä¹˜ç§¯è¿ç»­å­ä¸²çš„å€¼ï¼Œä¾‹å¦‚ -2.5ï¼Œ4ï¼Œ0ï¼Œ3ï¼Œ0.5ï¼Œ8ï¼Œ-1ï¼Œåˆ™å–å‡º
+çš„æœ€å¤§ä¹˜ç§¯è¿ç»­å­ä¸²ä¸º3ï¼Œ 0.5ï¼Œ 8ã€‚ ä¹Ÿå°±æ˜¯è¯´ï¼Œ ä¸Šè¿°æ•°ç»„ä¸­ï¼Œ 3 0.5 8è¿™3 ä¸ªæ•°çš„ä¹˜ç§¯3*0.5*8=12
+æ˜¯æœ€å¤§çš„ï¼Œè€Œä¸”æ˜¯è¿ç»­çš„
 */
 
-//»¹ÓĞÒ»¸ö²åÈë³ËºÅµÄ±äÖÖ Èç123 ²åÈëÒ»¸ö³ËºÅ  ×î´ó³Ë»ıÎª12*3=36.   !!!
+//è¿˜æœ‰ä¸€ä¸ªæ’å…¥ä¹˜å·çš„å˜ç§ å¦‚123 æ’å…¥ä¸€ä¸ªä¹˜å·  æœ€å¤§ä¹˜ç§¯ä¸º12*3=36.   !!!
 
 float maxMultiplySequence()
 {
@@ -242,9 +242,9 @@ float maxMultiplySequence()
 	{
 		float tmp = r[i-1];
 
-		if (tmp*a[i]>a[i])		//¹Ø¼üµã£¡	 Èçr[i-1]=3, a[i]=0.5. Ö»Òª3*0.5>0.5 Ôò¿ÉÈÃr[i]=3*0.5¡£ 
-		{								//ÒòÎª1.5³ËÒÔ8×Ü±È0.5³ËÒÔ3´ó£¡
-			r[i] = tmp*a[i];		//×´Ì¬×ªÒÆ·½³ÌÎª r[i]=max(a[i],r[i-1]*a[i]);
+		if (tmp*a[i]>a[i])		//å…³é”®ç‚¹ï¼	 å¦‚r[i-1]=3, a[i]=0.5. åªè¦3*0.5>0.5 åˆ™å¯è®©r[i]=3*0.5ã€‚ 
+		{								//å› ä¸º1.5ä¹˜ä»¥8æ€»æ¯”0.5ä¹˜ä»¥3å¤§ï¼
+			r[i] = tmp*a[i];		//çŠ¶æ€è½¬ç§»æ–¹ç¨‹ä¸º r[i]=max(a[i],r[i-1]*a[i]);
 		}
 		else
 		{
@@ -260,49 +260,104 @@ float maxMultiplySequence()
 
 
 
+//
+//int main()
+//{
+//	int maxvalue = max_value();
+//	cout << "The max value is: ";
+//	cout << maxvalue << endl;
+//	int remainspace = W;
+//	//è¾“å‡ºæ‰€é€‰æ‹©çš„ç‰©å“åˆ—è¡¨ï¼š
+//	for (int i = N; i >= 1; i--)
+//	{
+//		if (remainspace >= goods[i].weight)
+//		{
+//			if ((select[i][remainspace] - select[i - 1][remainspace - goods[i].weight] == goods[i].value))
+//			{
+//				cout << "item " << i << " is selected!" << endl;
+//				remainspace = remainspace - goods[i].weight;//å¦‚æœç¬¬iä¸ªç‰©å“è¢«é€‰æ‹©ï¼Œé‚£ä¹ˆèƒŒåŒ…å‰©ä½™å®¹é‡å°†å‡å»ç¬¬iä¸ªç‰©å“çš„é‡é‡ ;
+//			}
+//		}
+//	}
+//
+//	vector<int>missles{ 2,1,1,1,1,1,9,8,7,6,5,4,3,2,1};
+//	int res=missleIntercept(missles);
+//
+//	int array[12] = { 208,117,109,238,144,248,138,39,106,9,159,18 };
+//	int maxDiff=maxArrayDiff(array, 12);
+//	inPutBox();
+//	cutSteel();
+//
+//	char * str1 = "#abc";
+//	char * str2 = "#bcd";
+//	int n = strlen(str1);
+//	int r[4][4] = { 0x00 };
+//	int b[4][4] = { 0x00 };
+//
+//	int len=getCommenLen(n, r, str1, str2, b);
+//	LCS(3, 3, str1, b);
+//	maxMultiplySequence();
+//	cout << LLONG_MAX << endl;
+//
+//	return 0;
+//}
+//
+//
+//
+//
 
+#include<iostream>
+# include<cstring>
+#include <algorithm>
+# define max(a,b) a>b?a:b
+using namespace std;
+
+/*
+è¿™ä¸€é¢˜å’Œç™»å±±æœºå™¨äººé‚£ä¸€é¢˜å¾ˆåƒï¼Œè¿˜ç®€å•ç‚¹ï¼Œç›´æ¥æšä¸¾å…¬é‡Œæ•°ï¼Œç„¶åæšä¸¾æ¯æ¬¡èƒ½èµ°çš„å…¬é‡Œæ•°(0~10)
+æ–¹ç¨‹ f[i]=min(f[i],f[ik]+a[k])Í¾ k=1~10
+*/
+//int main()
+//{
+//
+//	int f[100] = { 0x00 };
+//	
+//	int val[10] = { 12, 21, 31, 40, 49, 58, 69, 79, 90, 101 }; 
+//	
+//	int len = 15;
+//
+//	for (int i = 1; i <= 15;i++)
+//	{
+//		for (int k = 0; k <10;k++)
+//		{
+//			if (i>=k)
+//			{
+//				f[i] = min(f[i], f[i-k]+val[k]);
+//			}
+//		}
+//	}
+//	return 0;
+//}
+
+int a[20], n;
+int f[110];
 int main()
 {
-	int maxvalue = max_value();
-	cout << "The max value is: ";
-	cout << maxvalue << endl;
-	int remainspace = W;
-	//Êä³öËùÑ¡ÔñµÄÎïÆ·ÁĞ±í£º
-	for (int i = N; i >= 1; i--)
-	{
-		if (remainspace >= goods[i].weight)
-		{
-			if ((select[i][remainspace] - select[i - 1][remainspace - goods[i].weight] == goods[i].value))
+	//freopen("ty1015.in", "r", stdin);
+	//freopen("ty1015.out", "w", stdout);
+	//for (int i = 1; i <= 10; i++)scanf("%d", &a[i]);
+	//scanf("%d", &n);
+	
+	int a[11] = { 0,12, 21, 31, 40, 49, 58, 69, 79, 90, 101 }; 
+
+	n = 15;
+	memset(f, 0x3f, sizeof(f));
+	f[0] = 0;
+	for (int i = 1; i <= n; i++)
+		for (int k = 0; k <= 10; k++)
+			if (i >= k)
 			{
-				cout << "item " << i << " is selected!" << endl;
-				remainspace = remainspace - goods[i].weight;//Èç¹ûµÚi¸öÎïÆ·±»Ñ¡Ôñ£¬ÄÇÃ´±³°üÊ£ÓàÈİÁ¿½«¼õÈ¥µÚi¸öÎïÆ·µÄÖØÁ¿ ;
+				f[i] = min(f[i], f[i - k] + a[k]);
 			}
-		}
-	}
-
-	vector<int>missles{ 2,1,1,1,1,1,9,8,7,6,5,4,3,2,1};
-	int res=missleIntercept(missles);
-
-	int array[12] = { 208,117,109,238,144,248,138,39,106,9,159,18 };
-	int maxDiff=maxArrayDiff(array, 12);
-	inPutBox();
-	cutSteel();
-
-	char * str1 = "#abc";
-	char * str2 = "#bcd";
-	int n = strlen(str1);
-	int r[4][4] = { 0x00 };
-	int b[4][4] = { 0x00 };
-
-	int len=getCommenLen(n, r, str1, str2, b);
-	LCS(3, 3, str1, b);
-	maxMultiplySequence();
-	cout << LLONG_MAX << endl;
-
+	printf("%d", f[n]);
 	return 0;
 }
-
-
-
-
-

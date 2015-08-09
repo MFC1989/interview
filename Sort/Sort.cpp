@@ -371,7 +371,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	// mMergeSort(mArray,0,4,newArray);
 	//heapSort(mArray, 5);
 	selectSortV2();
-
+	int * t = new int(1);
 	return 0;
 }
 
