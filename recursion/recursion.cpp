@@ -186,6 +186,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool bRFind = binSearchRecursion(a, 0, (sizeof(a)/sizeof(int))-1,-1);
 
 	int f=testStaticVar(3);
+
+
+
 	return 0;
 }
 

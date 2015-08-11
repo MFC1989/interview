@@ -207,7 +207,6 @@ Node* reverseList(Node * mList)
 
 Node* ReverseList2(Node* head)
 {
-	//ActList* temp=new ActList;
 	if (NULL == head || NULL == head->Next) return head;    //少于两个节点没有反转的必要。
 	Node* p;
 	Node* q;

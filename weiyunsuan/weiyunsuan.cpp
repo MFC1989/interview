@@ -204,7 +204,7 @@ void PrintfBinary(T a)
 			putchar('1');
 		else
 			putchar('0');
-		if (i == 8)
+		if (i %8== 0)
 			putchar(' ');
 	}
 	putchar('\n');
