@@ -160,6 +160,34 @@ int testStaticVar(int x)
 	
 }
 
+
+void reverseShowNum(int n)
+{
+	printf("%d", n % 10);     
+
+	if ((n / 10) != 0)
+	{
+		reverseShowNum(n / 10);
+	}
+}
+
+#include <set>
+
+char findchar(const string & str)
+{
+	int len = str.size();
+	for (int i = len - 1; i >= 0;i--)
+    {
+		if (std::count(str.begin(),str.end(),str[i])==1)
+		{
+			return str[i];
+		}
+    }
+
+	cout << "can't find!" << endl;
+	return ' ';
+	
+}
 int _tmain(int argc, _TCHAR* argv[])
 {
 	int res = getSum(1200);

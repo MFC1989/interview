@@ -1,377 +1,319 @@
 // Sort.cpp : 定义控制台应用程序的入口点。
 //
-
 #include "stdafx.h"
-#include <process.h>
-#include <stdlib.h>
-#include <utility>
 #include <iostream>
+#include <cstdio>
+#include <conio.h>
+#include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
+#include <ratio>
+#include <chrono>
+
+#include <iostream>
+#include <ctime>
+#include <iomanip>
+
+#include <future>
+#include <thread>
 using namespace std;
 
-void mSwap(int *a,int *b)
+inline void swap(int & a, int &b)
 {
-	int tmp=*a;
-	*a=*b;
-	*b=tmp;
+	int tmp = a;
+	a = b;
+	b = tmp;
 }
 
-void mSwapByBitOp(int &a,int &b)
+void PRINT(int * mArray, int len)
 {
-	if (a!=b)
+	for (int i = 0; i < len; i++)
 	{
-		a = a^b;
-		b = a^b;
-		a = a^b;
+		cout << mArray[i] << " ";
 	}
-	
+	cout << endl;
 }
 
-void bubbleSort(int tArray[],int len)
+void initArray(int * mArray, int len)
 {
-	for (int i = 0; i < len;i++)
+	for (int i = 0; i < len; i++)
 	{
-		for (int j = 1; j < len - i;j++)
+		mArray[i] = rand();
+	}
+}
+//依次把最大的放后面
+int  bubbleSort(int * array, int len)
+{
+	for (int i = 0; i < len; ++i)
+	{
+		for (int j = 1; j < len - j; ++j)
 		{
-			if (tArray[j]<tArray[j-1])
+			if (array[j] < array[j - 1])
 			{
-				mSwapByBitOp(tArray[j], tArray[j - 1]);
+				swap(array[j], array[j - 1]);
 			}
 		}
 	}
+
+	return 0;
 }
 
 
-void InsertSort(int tArray[],int len)
+//插入排序
+void insertSort(int * array, int len)
 {
-
 	int i, j, tmp;
-	for ( i = 1; i < len;i++)
+	for (i = 1; i < len; ++i)
 	{
-		tmp = tArray[i];
-		for ( j = i - 1; j >= 0;j--)
+		int tmp = array[i];
+		for (j = i - 1; j >= 0; j--)
 		{
-			if (tArray[j]>tmp)					//如果前面有数大于它，则把前面的数往后挪动
+			if (array[j]>tmp)
 			{
-				tArray[j + 1] = tArray[j];		
+				array[j + 1] = array[j];
+			}
+			else
+			{
+				break;
 			}
 		}
-		
-		tArray[j + 1] = tmp;		//把它插入到正确的位置
+		array[j + 1] = tmp;
+
 	}
+
 
 }
 
-
-void ShellSort(int tArray[],int len)
+//选择排序
+int selectSort(int array[], int len)
 {
-	int i,j,flag,tmp;
-	flag=len/2;
-	while (flag>=1)
+	int minIndex;
+	for (int i = 0; i < len; ++i)
 	{
-		for (i=flag;i<len;i++)
+		minIndex = i;
+		for (int j = i + 1; j < len; ++j)
 		{
-			tmp=tArray[i];
-			j=i-flag;
-			while (j>=0&&tArray[j]>tmp)
-			{
-				tArray[j+flag]=tArray[j];
-				j=j-flag;
-			}
-			tArray[j+flag]=tmp;
-		
-		}
-		flag/=2;
-	}
-
-}
-
-//void SelectSort(int tArray[],int len)
-//{
-//	int i,j,flag;
-//	for ( i=0;i<len-1;i++)
-//	{
-//		flag=i;
-//		for ( j=i+1;j<len;j++)
-//		{
-//			if (tArray[flag]>tArray[j])
-//			{
-//				flag=j;
-//			}
-//		}
-//
-//			//tmp=tArray[i];
-//			//tArray[i]=tArray[flag];
-//			//tArray[flag]=tmp;
-//			mSwapByBitOp((tArray[i]),(tArray[flag]));
-//	}
-//
-//
-//}
-
-
-//找到后面最小的那个数的下标，然后与之交换。
-void selectSortV2()
-{
-	int a[5] = { 2, 4, 3, 1, 9 };
-	for (int i = 0; i < 5;i++)
-	{
-		int minIndex = i;
-		for (int j = i + 1; j < 5;j++)
-		{
-			if (a[minIndex]>a[j])
+			if (array[minIndex]>array[j])
 			{
 				minIndex = j;
 			}
 		}
-
-		if (minIndex!=i)
+		if (minIndex != i)
 		{
-			mSwapByBitOp(a[i], a[minIndex]);
+			swap(array[i], array[minIndex]);
 		}
 	}
+	return 0;
+}
+
+
+void QuickSort(int * array, int left, int right)
+{
+	int i = left;
+	int j = right;
+	int x = array[i];
+
+	if (i < j)
+	{
+		while (i < j&&x <= array[j]) {
+			j--;
+		}
+		if (i < j)
+		{
+			array[i] = array[j];
+			i++;
+		}
+
+		while (i < j&&array[i] < x) {
+			i++;
+		}
+		if (i < j)
+		{
+			array[j] = array[i];
+			j--;
+		}
+		array[i] = x;
+		QuickSort(array, left, i - 1);
+		QuickSort(array, i + 1, right);
+	}
+
 
 }
 
 
-
-
-void QuickSort(int tArray[], int left,int right)
+//二分查找 递归
+bool binSearch(int * array, int begin, int end, int key)
 {
-	if (left < right)
+	int left = begin;
+	int right = end;
+
+	if (left <= right)
 	{
-		int i = left;
-		int j = right;
-		int x = tArray[left];
-		while (i < j)
+		int mid = (left + right) / 2;
+		if (array[mid] == key)
 		{
-			while (i < j&&tArray[j] >= x)
-			{
-				j--;
-			}
-
-			if (i < j)
-			{
-				tArray[i] = tArray[j];
-				i++;
-			}
-
-			while (i < j&&tArray[i] < x)
-			{
-				i++;
-			}
-			if (i < j)
-			{
-				tArray[j] = tArray[i];
-				j--;
-			}
-
-			tArray[i] = x;
-			QuickSort(tArray, left, i - 1);
-			QuickSort(tArray, i + 1, right);
+			return true;
 		}
-	}
-	
-	//if (last <= first)
-	//{
-	//	return;
-	//}
-	//int pivot = a[first];
-	//int index = last;
-
-	//for (int i = last; i >= first + 1; i--)
-	//{
-	//	if (a[i] >= pivot)
-	//	{
-	//		mSwapByBitOp(a[i], a[index]);
-	//		index--;
-	//	}
-	//}
-
-	//a[first] = a[index];
-	//a[index] = pivot;
-
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	cout << a[i] << " ";
-	//}
-	//QuickSort(a, first, index - 1);
-	//QuickSort(a, first, index + 1);
-
-}
-
-void mergeArray(int array1[],int first,int mid,int last,int res[])
-{
-	int j = mid+1;
-	int cur = 0;
-	while (first<=mid&&j<=last)
-	{
-		if (array1[first]<array1[j])
-		{
-			res[cur] = array1[first];
-			cur++;
-			first++;
-		} 
 		else
 		{
-			res[cur] = array1[j];
-			cur++;
-			j++;
+			return binSearch(array, left, mid - 1, key) || binSearch(array, mid + 1, right, key);
 		}
 	}
-
-	while (first<=mid)						//若前半部分没有合并完
+	else
 	{
-		res[cur] = array1[first];
-		cur++;
-		first++;
+		return false;
 	}
-
-	while (j<=last)							//若后半部分没有合并完
-	{
-		res[cur] = array1[j];					//PS: 前半部分没有合并完和后半部分没有合并完这两种情况只会出现一种。
-		cur++;
-		j++;
-	}
-
-	
-	//for (int i = 0; i < k;i++)
-	//{
-	//	array1[first + i] = res[i];
-	//	cout << res[i] <<" ";
-	//}
-	//cout << endl;
 }
 
 
-
-//合并有序数组(array的前半部分和后半部分分别是有序的，现将其合并为整体有序)
-void merge2SortedArray(int array[],int first,int mid,int last,int res[])
+//合并两个有序数组
+void merge(int * array, int first, int mid, int last, int * tmp)
 {
-	int cur = 0;
+	int i = first;
 	int j = mid + 1;
-	while (first<=mid&&j<=last)
+	int m = mid;
+	int n = last;
+	int k = 0;
+
+	while (i <= m&&j <= n)
 	{
-		if (array[first]<array[j])
+		if (array[i] > array[j])
 		{
-			res[cur] = array[first];
-			first++;
-			cur++;
+			tmp[k++] = array[j++];
 		}
 		else
 		{
-			res[cur] = array[j];
-			j++;
-			cur++;
+			tmp[k++] = array[i++];
 		}
+
 	}
 
-	while (first<=mid)
+	while (i <= m)
 	{
-		res[cur] = array[first];
-		cur++;
-		first++;
+		tmp[k++] = array[i++];
 	}
 
-	while (j <= last)
+	while (j <= n)
 	{
-		res[cur] = array[j];
-		cur++;
-		j++;
+		tmp[k++] = array[j++];
 	}
+
 
 
 }
 
-
-void mergeSort(int array[], int first, int last, int buffer[])
+//递归拆分合并
+void recursionMerge(int * array, int first, int last, int * tmp)
 {
 	if (first < last)
 	{
 		int mid = (first + last) / 2;
-		mergeSort(array, first, mid, buffer);
-		mergeSort(array, mid + 1, last, buffer);
-		mergeArray(array, first, mid, last, buffer);
-	}
-
-}
-
-//堆排序
-
-
-#define  LEFT(x)  (x<<1)
-#define  RIGHT(x) ((x<<1)+1)
-
-//维护最大堆的性质
-void maxHeapify(int array[], int len, int index)
-{
-	int l = LEFT(index);
-	int r = RIGHT(index);
-
-	int largest = 0;
-
-	if (l <= len&&array[l] > array[index])
-	{
-		largest = l;
-	}
-	else
-	{
-		largest = index;
-	}
-
-
-	if (r <= len&&array[r] > array[largest])
-	{
-		largest = r;
-	}
-
-	if (!(largest&index))
-	{
-		mSwapByBitOp(array[index], array[largest]);
-		maxHeapify(array, len, largest);
-	}
-
-}
-
-
-//建堆
-void buildMaxHeap(int array[],int len)
-{
-	for (int i = len / 2; i >= 1;i--)
-	{
-		maxHeapify(array, len, i);
+		recursionMerge(array, first, mid, tmp);
+		recursionMerge(array, mid + 1, last, tmp);
+		merge(array, first, mid, last, tmp);
 	}
 }
 
-
-//堆排序
-void heapSort(int array[], int len)
+void mergeSort(int * array, int len)
 {
-	buildMaxHeap(array, len);
-
-	for (int i = len; i > 1; i--)
-	{
-		mSwapByBitOp(array[1], array[len]);
-		maxHeapify(array, i, 1);
-	}
-
+	int * ptmp = new int[len];
+	recursionMerge(array, 0, len - 1, ptmp);
+	delete[] ptmp;
 }
 
-
-
-int _tmain(int argc, _TCHAR* argv[])
+void showTime()
 {
-	int mArray[6]={0,3,11,7,9,2};
-	QuickSort(mArray, 0, 5);
-	//int mArrayLen=sizeof(mArray)/sizeof(int);
-	//int newArray[5] = { 0x00 };
+	using std::chrono::system_clock;
+	auto end = std::chrono::system_clock::now();
 
-	////mergeSort(mArray, 0, 3, newArray);
+	std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+	cout << std::ctime(&end_time) << endl;
+}
 
-	 //merge2SortedArray(mArray, 0, 2, 4, newArray);
-	// mMergeSort(mArray,0,4,newArray);
-	//heapSort(mArray, 5);
-	//selectSortV2();
+#define ARRAY_LEN 50000
+int main(int argc, char**a)
+{
 
+
+
+	showTime();
+	int mArray[ARRAY_LEN];
+	int mArray2[ARRAY_LEN];
+	int mArray3[ARRAY_LEN];
+
+	cout << sizeof(mArray)*(sizeof(int)) / 1024 << endl;
+
+	//initArray(mArray, ARRAY_LEN);
+	//PRINT(mArray,ARRAY_LEN);
+	//QuickSort(mArray, 0, ARRAY_LEN - 1);
+
+
+	initArray(mArray, ARRAY_LEN);
+	initArray(mArray2, ARRAY_LEN);
+	initArray(mArray3, ARRAY_LEN);
+
+
+	mergeSort(mArray, ARRAY_LEN);
+
+
+
+	initArray(mArray, ARRAY_LEN);
+	//std::thread t1(selectSort, mArray3, ARRAY_LEN); // Acceptable.
+	//t1.join();
+	selectSort(mArray3,ARRAY_LEN);
+
+	initArray(mArray, ARRAY_LEN);
+	//std::thread t2(bubbleSort, mArray2, ARRAY_LEN); // Acceptable.
+	//t2.join();
+	bubbleSort(mArray2, ARRAY_LEN);
+	initArray(mArray, ARRAY_LEN);
+
+	insertSort(mArray, ARRAY_LEN);
+
+	//PRINT(mArray,ARRAY_LEN);
+
+	showTime();
+
+
+	//PRINT(mArray,ARRAY_LEN);
+	getch();
 	return 0;
 }
+
+
+
+
+//#define ABS(n) (n>0?n:-n)
+//
+//char *itoa(int  i)
+//{
+//	char * Str = (char *)malloc(sizeof(char) * 32);
+//	
+//	char buff[32] = { '\0' };
+//	int tmp = ABS(i);
+//	int m, n;
+//	for (m = 0; m < 32; m++)
+//	{
+//		buff[m] = (tmp%10) + '0';
+//		tmp = tmp / 10;
+//		if (tmp == 0)
+//		{
+//			break;
+//		}
+//	}
+//	if (i < 0)
+//	{
+//		buff[++m] = '-';
+//	}
+//	for (n = 0; m >= 0; m--)
+//	{
+//		Str[n++] = buff[m];
+//	}
+//	Str[n] = '\0';
+//	return Str;
+//}
+
+
+
 
